@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const roomroutes = require('./routes/roomroutes');
+const authroutes = require('./routes/authroutes');
 const app = express();
 //middleware
 app.use(cors());
@@ -22,3 +23,4 @@ mongoose.connect(process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:
     .catch((e) => console.log(e, "error connecting to db!.."));
 //routes
 app.use('/api', roomroutes);
+app.use('/api', authroutes);
