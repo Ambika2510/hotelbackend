@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const roomroutes = require('./routes/roomroutes');
 const authroutes = require('./routes/authroutes');
+const bookingroutes = require('./routes/bookroomroutes');
 const app = express();
 //middleware
 app.use(cors());
@@ -24,3 +25,4 @@ mongoose.connect(process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:
 //routes
 app.use('/api', roomroutes);
 app.use('/api', authroutes);
+app.use('/api', bookingroutes);

@@ -24,13 +24,23 @@ const createroom = async(req, res) => {
     }
     //get a roomdetail
 const getroomdetail = async(req, res) => {
-    try {
-        const id = req.params.id;
-        const roomdetail = await Room.findById(id);
-        res.status(200).json(roomdetail);
+        try {
+            const id = req.params.id;
+            const roomdetail = await Room.findById(id);
+            res.status(200).json(roomdetail);
 
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
     }
+    //update a room
+const updateroom = async(req, res) => {
+    const id = req.params.id;
+    const hotel = await Room.findById(id);
+    const c = hotel.maxcount - 1;
+    const room = await Room.findByIdAndUpdate(id, { maxcount: c }, {
+        new: true
+    });
+    res.status(200).json(room);
 }
-module.exports = { getallrooms, createroom, getroomdetail }
+module.exports = { getallrooms, createroom, getroomdetail, updateroom }
