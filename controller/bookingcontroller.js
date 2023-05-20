@@ -60,25 +60,39 @@ const bookroom = async(req, res) => {
 
 //payment gateway controller
 const getToken = async(req, res) => {
-    try {
-        gateway.clientToken.generate({}, function(error, response) {
-            if (error) {
-                return res.status(500).send({
-                    success: false,
-                    message: error
-                })
-            } else {
-                // console.log(response)
-                res.status(200).send(response)
-            }
-        })
+        try {
+            gateway.clientToken.generate({}, function(error, response) {
+                if (error) {
+                    return res.status(500).send({
+                        success: false,
+                        message: error
+                    })
+                } else {
+                    // console.log(response)
+                    res.status(200).send(response)
+                }
+            })
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({
-            success: false,
-            message: "some error in payment token verification"
-        })
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({
+                success: false,
+                message: "some error in payment token verification"
+            })
+        }
+    }
+    //get a room of user
+const getroombyuser = async(req, res) => {
+
+    try {
+        const { id } = req.params;
+        const data = await Booking.find({ userid: id });
+        // console.log(res);
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(400).json({ message: err.message })
+
     }
 }
-module.exports = { bookroom, getToken }
+
+module.exports = { getroombyuser, bookroom, getToken }
