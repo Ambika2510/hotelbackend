@@ -1,4 +1,5 @@
 const Room = require('../model/room');
+
 const mongoose = require('mongoose');
 require('dotenv').config();
 const Booking = require('../model/booking');
@@ -84,15 +85,37 @@ const getToken = async(req, res) => {
     //get a room of user
 const getroombyuser = async(req, res) => {
 
+        try {
+            const { id } = req.params;
+            const data = await Booking.find({ userid: id }).sort({ createdAt: -1 });
+            // console.log(res);
+            res.status(200).json(data);
+        } catch (err) {
+            res.status(400).json({ message: err.message })
+
+        }
+    }
+    //update a booking
+const updatebooking = async(req, res) => {
     try {
         const { id } = req.params;
-        const data = await Booking.find({ userid: id });
-        // console.log(res);
-        res.status(200).json(data);
-    } catch (err) {
-        res.status(400).json({ message: err.message })
+        const data = await Booking.findById(id);
+        data.status = "cancelled";
+        await data.save();
+        const roomid = data.roomid;
+        const room = await Room.findById(roomid);
+        room.maxcount = room.maxcount + 1;
+        const newbooking = room.currentbooking.filter((item) => item.bookingid != id);
+        room.currentbooking = newbooking;
+        await room.save();
+        res.status(200).json({ message: "booking cancelled" });
 
+
+    } catch (e) {
+        res.status(400).json({ message: e.message })
     }
 }
 
-module.exports = { getroombyuser, bookroom, getToken }
+
+
+module.exports = { getroombyuser, bookroom, getToken, updatebooking }
