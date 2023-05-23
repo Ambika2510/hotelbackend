@@ -13,7 +13,9 @@ const getallrooms = async(req, res) => {
 //post a room
 const createroom = async(req, res) => {
         try {
-            const { name, maxcount, phonenumber, rentperday, imageurl, currentbooking, type, description } = req.body;
+            const { name, maxcount, phonenumber, rentperday, url1, url2, url3, type, description } = req.body;
+            const imageurl = [url1, url2, url3];
+            const currentbooking = [];
             const newroom = await Room.create({ name, maxcount, phonenumber, rentperday, imageurl, currentbooking, type, description });
             res.status(200).json(newroom);
 
