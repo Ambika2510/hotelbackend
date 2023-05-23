@@ -48,5 +48,14 @@ const signupUser = async(req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+//getalluser
+const getalluser = async(req, res) => {
+    try {
+        const users = await User.find().sort({ createdAt: -1 }) //newest come first;
 
-module.exports = { getUser, loginUser, signupUser };
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+module.exports = { getUser, loginUser, signupUser, getalluser };

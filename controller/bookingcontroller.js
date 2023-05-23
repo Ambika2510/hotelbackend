@@ -97,25 +97,35 @@ const getroombyuser = async(req, res) => {
     }
     //update a booking
 const updatebooking = async(req, res) => {
-    try {
-        const { id } = req.params;
-        const data = await Booking.findById(id);
-        data.status = "cancelled";
-        await data.save();
-        const roomid = data.roomid;
-        const room = await Room.findById(roomid);
-        room.maxcount = room.maxcount + 1;
-        const newbooking = room.currentbooking.filter((item) => item.bookingid != id);
-        room.currentbooking = newbooking;
-        await room.save();
-        res.status(200).json({ message: "booking cancelled" });
+        try {
+            const { id } = req.params;
+            const data = await Booking.findById(id);
+            data.status = "cancelled";
+            await data.save();
+            const roomid = data.roomid;
+            const room = await Room.findById(roomid);
+            room.maxcount = room.maxcount + 1;
+            const newbooking = room.currentbooking.filter((item) => item.bookingid != id);
+            room.currentbooking = newbooking;
+            await room.save();
+            res.status(200).json({ message: "booking cancelled" });
 
 
-    } catch (e) {
-        res.status(400).json({ message: e.message })
+        } catch (e) {
+            res.status(400).json({ message: e.message })
+        }
     }
-}
+    //get all bookings
+const getallbookings = async(req, res) => {
+    try {
+        const bookings = await Booking.find().sort({ createdAt: -1 }) //newest come first;
+
+        res.status(200).json(bookings);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
 
 
 
-module.exports = { getroombyuser, bookroom, getToken, updatebooking }
+module.exports = { getroombyuser, bookroom, getToken, updatebooking, getallbookings }
