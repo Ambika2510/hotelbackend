@@ -19,7 +19,6 @@
         "jsonwebtoken": "^9.0.0",
         "mongoose": "^7.1.0",
         "nodemon": "^2.0.22",
-        "stripe": "^12.5.0",
         "uuid": "^9.0.0",
         "validator": "^13.9.0"
     }
