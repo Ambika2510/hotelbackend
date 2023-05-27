@@ -15,7 +15,7 @@ const gateway = new braintree.BraintreeGateway({
 });
 //book a room   
 const bookroom = async(req, res) => {
-    const { room, userid, fromdate, todate, totalamount, totaldays, nonce } = req.body;
+    const { room, userid, fromdate, todate, totalamount, totaldays, transactionid, nonce } = req.body;
     try {
         let newTransaction = gateway.transaction.sale({
                 amount: totalamount,
@@ -29,7 +29,7 @@ const bookroom = async(req, res) => {
             async function(err, result) {
                 if (result) {
                     try {
-                        const newbooking = await Booking.create({ room: room.name, roomid: room._id, userid, fromdate, todate, totalamount, totaldays, transactionid: "123456789" });
+                        const newbooking = await Booking.create({ room: room.name, roomid: room._id, userid, fromdate, todate, totalamount, totaldays, transactionid });
                         const roomtemp = await Room.findById(room._id);
                         roomtemp.currentbooking.push({
                             bookingid: newbooking._id,
