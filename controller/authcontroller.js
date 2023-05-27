@@ -58,4 +58,23 @@ const getalluser = async(req, res) => {
         res.status(404).json({ message: error.message });
     }
 };
-module.exports = { getUser, loginUser, signupUser, getalluser };
+//updatePassword
+const updatePassword = async(req, res) => {
+    const { userid, oldpassword, newpassword } = req.body;
+    // console.log(userid, oldpassword, newpassword)
+    try {
+        const user = await User.updatePassword(userid, oldpassword, newpassword)
+        const token = createToken(user._id)
+        const id = user._id;
+        res.status(200).json({ id, token })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+module.exports = {
+    getUser,
+    loginUser,
+    signupUser,
+    getalluser,
+    updatePassword
+};
