@@ -12,6 +12,10 @@ app.use(cors());
 app.use(express.json());
 app.use((req, res, next) => {
     console.log(req.path, req.method);
+    if (req.url === '/favicon.ico' || req.url === '/') {
+        console.log('favicon requested');
+        res.status(204).end();
+    }
     next();
 });
 
@@ -24,9 +28,6 @@ mongoose.connect(process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:
     })
     .catch((e) => console.log(e, "error connecting to db!.."));
 //routes
-app.get('/', (req, res) => {
-    res.send('Welcome to Hotel Booking API');
-});
 
 app.use('/api', roomroutes);
 app.use('/api', authroutes);
