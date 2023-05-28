@@ -23,6 +23,9 @@ mongoose.connect(process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:
     })
     .catch((e) => console.log(e, "error connecting to db!.."));
 //routes
+app.get('/', (req, res) => {
+    res.send('Welcome to Hotel Booking API');
+});
 app.use('/api', roomroutes);
 app.use('/api', authroutes);
 app.use('/api', bookingroutes);
