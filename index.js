@@ -14,15 +14,7 @@ app.use((req, res, next) => {
     console.log(req.path, req.method);
     next();
 });
-app.use(function(req, res, next) {
 
-    if (req.originalUrl && req.originalUrl.split("/").pop() === 'favicon.ico') {
-        return res.sendStatus(204);
-    }
-
-    next();
-
-});
 //connecting to database
 const port = 3700 || process.env.PORT;
 mongoose.set('strictQuery', true);
