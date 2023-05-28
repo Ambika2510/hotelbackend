@@ -14,14 +14,7 @@ app.use((req, res, next) => {
     console.log(req.path, req.method);
     next();
 });
-app.use(ignoreFavicon);
-
-function ignoreFavicon(req, res, next) {
-    if (req.originalUrl.includes('favicon.ico')) {
-        res.status(204).end()
-    }
-    next();
-}
+app.get('/favicon.ico', (req, res) => res.status(204));
 //connecting to database
 const port = 3700 || process.env.PORT;
 mongoose.set('strictQuery', true);
