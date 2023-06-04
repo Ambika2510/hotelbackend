@@ -21,6 +21,10 @@ const userSchema = new Schema({
     isadmin: {
         type: Boolean,
         default: false
+    },
+    profileimage: {
+        type: String,
+        default: "https://flowbite.com/docs/images/logo.svg"
     }
 }, {
     timestamps: true,
